@@ -1,0 +1,26 @@
+[HF Adapter] Request Started: 2026-02-24T13:25:26.687Z
+[HF Adapter] Using model: mistralai/Mistral-7B-Instruct-v0.3
+[HF Adapter] API Key loaded? false
+[HF Adapter] Request Started: 2026-02-24T13:26:35.421Z
+[HF Adapter] Using model: mistralai/Mistral-7B-Instruct-v0.3
+[HF Adapter] API Key loaded? true
+[HF Adapter] API Key length: 37
+[HF Adapter] API Key prefix: hf_fb
+[HF Adapter] Request Started: 2026-02-24T13:28:54.611Z
+[HF Adapter] Using model: google/medgemma-1.5-4b-it
+[HF Adapter] API Key loaded? true
+[HF Adapter] API Key length: 37
+[HF Adapter] API Key prefix: hf_fb
+[HF Adapter] Request Started: 2026-02-24T13:32:41.028Z
+[HF Adapter] Endpoint: https://router.huggingface.co/hf-inference/models/google/medgemma-1.5-4b-it
+[HF Adapter] Using model: google/medgemma-1.5-4b-it
+[HF Adapter] API Key loaded? true
+[HF Adapter] API Key length: 37
+[HF Adapter] API Key prefix: hf_fb
+[HF Adapter] Request Started: 2026-02-24T13:37:11.811Z
+[HF Adapter] Endpoint: https://router.huggingface.co/hf-inference/models/google/medgemma-1.5-4b-it
+[HF Adapter] Using model: google/medgemma-1.5-4b-it
+[HF Adapter] API Key loaded? true
+[HF Adapter] API Key length: 37
+[HF Adapter] API Key prefix: hf_fb
+[HF Adapter] Request Body: {"inputs":"user: You are MedGemma, a specialized medical AI assistant. Your goal is to generate educational quiz questions about Sickle Cell Disease (SCD) to help patients and students learn.\n\n  Topic: Genetics of Sickle Cell Disease\n  Number of questions: 1\n\n  For each question, provide:\n  1. A clear, scientifically accurate question.\n  2. Four distinct options.\n  3. The index of the correct option.\n  4. A helpful medical explanation.\n\n  Focus on accuracy and clear, accessible language.\n  Response in JSON format.\n  ","parameters":{"max_new_tokens":1024,"temperature":0.7,"top_p":0.9,"return_full_text":false}}

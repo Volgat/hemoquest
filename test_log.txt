@@ -1,0 +1,17 @@
+Testing MedGemma Question Generation START...
+Registry actions fetched. Count: 30
+Attempting generation with MedGemma model...
+Error during MedGemma test:
+Message: Hugging Face API error (404): Not Found
+Stack: Error: Hugging Face API error (404): Not Found
+    at <anonymous> (C:\Users\mikea\Downloads\sicklcell body quest\src\ai\huggingface-adapter.ts:87:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async <anonymous> (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:475:12)
+    at async <anonymous> (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:369:26)
+    at async <anonymous> (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\tracing\instrumentation.ts:121:24)
+    at async runInNewSpan (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\tracing\instrumentation.ts:105:10)
+    at async actionFn.actionFn.run (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:321:18)
+    at async dispatch (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:244:24)
+    at async wrapped.wrapped.run (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:268:22)
+    at async wrapped (C:\Users\mikea\Downloads\sicklcell body quest\node_modules\@genkit-ai\core\src\action.ts:229:13)
+Testing MedGemma Question Generation END.
