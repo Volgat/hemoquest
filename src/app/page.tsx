@@ -1,10 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { systems, type System } from '@/lib/game-data';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Lock, Bot } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import { DrHemoAvatar } from '@/components/game/DrHemoAvatar';
 import { BodyIcon } from '@/components/icons/BodyIcon';
 import { usePlayer } from '@/hooks/use-player';
 import { Button } from '@/components/ui/button';
@@ -56,15 +58,29 @@ export default function Home() {
 
   return (
     <div className="container mx-auto py-8 h-full flex flex-col items-center justify-center">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold font-headline text-primary">Sickle Cell Body Quest</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+      <div className="text-center mb-6 flex flex-col items-center">
+        <Image
+          src="/logo.png"
+          alt="SCAGO Logo"
+          width={280}
+          height={80}
+          className="h-20 w-auto mb-4 object-contain drop-shadow-lg"
+          priority
+        />
+        <h1 className="text-4xl font-bold font-headline bg-gradient-to-r from-red-500 via-rose-400 to-red-700 bg-clip-text text-transparent drop-shadow-sm">
+          Hemo Quest
+        </h1>
+        <p className="text-muted-foreground max-w-xl mx-auto mt-2 text-sm leading-relaxed">
           Explore the human body, complete missions and learn about sickle cell disease. Gain XP to unlock new topics.
         </p>
-        <Button asChild className="mt-4 gap-2" variant="outline">
-          <Link href="/sprite-generator">
-            <Bot className="w-4 h-4" />
-            Ask the Health Guide
+        <Button
+          asChild
+          className="mt-5 gap-3 py-5 px-7 text-base font-semibold rounded-2xl shadow-lg bg-white/10 backdrop-blur border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/60 transition-all duration-300 hover:scale-105"
+          variant="outline"
+        >
+          <Link href="/health-guide">
+            <DrHemoAvatar size="sm" />
+            Ask Hemo 🩺
           </Link>
         </Button>
       </div>

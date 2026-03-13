@@ -5,7 +5,8 @@ import { chatWithMedGemma, type ChatMessage } from '@/ai/flows/medgemma-chat';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { Send, User, Loader2, RefreshCw, Sparkles, MessageCircle } from 'lucide-react';
+import { Send, User, Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import { DrHemoAvatar } from '@/components/game/DrHemoAvatar';
 
 const SUGGESTED_QUESTIONS = [
     "What is sickle cell disease?",
@@ -81,15 +82,12 @@ export function MedGemmaChatClient() {
                     <div className="flex flex-col items-center gap-8 pt-10">
                         {/* Glowing icon */}
                         <div className="relative">
-                            <div className="absolute inset-0 rounded-full bg-primary/30 blur-2xl scale-150" />
-                            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary/40 to-blue-500/30 border border-primary/40 flex items-center justify-center shadow-xl">
-                                <MessageCircle className="w-9 h-9 text-primary" />
-                            </div>
+                            <DrHemoAvatar size="lg" isThinking />
                         </div>
 
                         <div className="text-center max-w-md">
                             <h2 className="text-2xl font-bold font-headline text-foreground mb-2">
-                                Dr. Hemo - SCD Health Guide
+                                Hemo — Health Guide
                             </h2>
                             <p className="text-muted-foreground text-sm leading-relaxed">
                                 Ask any question about sickle cell disease — symptoms, treatments, genetics, daily management and more.
@@ -131,13 +129,8 @@ export function MedGemmaChatClient() {
                     >
                         {/* AI avatar */}
                         {msg.role === 'assistant' && (
-                            <div className={cn(
-                                'w-8 h-8 rounded-full flex-shrink-0 mt-1 flex items-center justify-center text-xs font-bold',
-                                msg.error
-                                    ? 'bg-destructive/20 text-destructive'
-                                    : 'bg-gradient-to-br from-primary/30 to-blue-500/20 border border-primary/30 text-primary'
-                            )}>
-                                Dr. H.
+                            <div className="flex-shrink-0 mt-1">
+                                <DrHemoAvatar size="sm" isThinking={false} />
                             </div>
                         )}
 
@@ -165,8 +158,8 @@ export function MedGemmaChatClient() {
                 {/* Typing indicator */}
                 {loading && (
                     <div className="flex gap-3 justify-start">
-                        <div className="w-8 h-8 rounded-full flex-shrink-0 mt-1 bg-gradient-to-br from-primary/30 to-blue-500/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
-                            Dr. H.
+                        <div className="flex-shrink-0 mt-1 uppercase">
+                            <DrHemoAvatar size="sm" isThinking={true} />
                         </div>
                         <div className="bg-card border border-border/60 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2">
                             <span className="flex gap-1">

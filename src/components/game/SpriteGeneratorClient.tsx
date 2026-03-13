@@ -12,7 +12,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Loader2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { DrHemoAvatar } from './DrHemoAvatar';
 import { Skeleton } from '../ui/skeleton';
+import { usePlayer } from '@/hooks/use-player';
+import { Check } from 'lucide-react';
 
 const formSchema = z.object({
   prompt: z.string().min(10, {
@@ -24,6 +27,7 @@ export function SpriteGeneratorClient() {
   const [loading, setLoading] = useState(false);
   const [spriteDataUri, setSpriteDataUri] = useState<string | null>(null);
   const { toast } = useToast();
+  const { setCustomSprite, customSprite } = usePlayer();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,6 +58,16 @@ export function SpriteGeneratorClient() {
     }
   }
 
+  const handleSetAsActive = () => {
+    if (spriteDataUri) {
+      setCustomSprite(spriteDataUri);
+      toast({
+        title: 'Character Updated!',
+        description: 'Your new sprite is now the active mascot.',
+      });
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <Card>
@@ -66,7 +80,7 @@ export function SpriteGeneratorClient() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2 text-lg font-semibold">
-                      <Bot className="w-5 h-5" />
+                      <DrHemoAvatar size="sm" isThinking={loading} />
                       Sprite Description
                     </FormLabel>
                     <FormControl>
@@ -97,9 +111,9 @@ export function SpriteGeneratorClient() {
           </Form>
         </CardContent>
       </Card>
-      <Card>
-        <CardContent className="p-6 h-full flex items-center justify-center">
-          <div className="w-full aspect-square max-w-md bg-muted/50 rounded-lg flex items-center justify-center overflow-hidden">
+      <Card className="flex flex-col">
+        <CardContent className="p-6 flex-1 flex flex-col items-center justify-center">
+          <div className="w-full aspect-square max-w-md bg-muted/50 rounded-lg flex items-center justify-center overflow-hidden mb-4">
             {loading ? (
               <div className='flex flex-col items-center gap-4'>
                 <Skeleton className="h-[256px] w-[256px] rounded-lg" />
@@ -119,6 +133,24 @@ export function SpriteGeneratorClient() {
               </div>
             )}
           </div>
+          
+          {spriteDataUri && !loading && (
+            <Button 
+                onClick={handleSetAsActive} 
+                variant={customSprite === spriteDataUri ? "outline" : "default"}
+                className ="w-full max-w-md"
+                disabled={customSprite === spriteDataUri}
+            >
+              {customSprite === spriteDataUri ? (
+                <>
+                  <Check className="mr-2 h-4 w-4" />
+                  Active Mascot
+                </>
+              ) : (
+                "Set as Active Mascot"
+              )}
+            </Button>
+          )}
         </CardContent>
       </Card>
     </div>

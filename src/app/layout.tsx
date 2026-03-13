@@ -6,7 +6,7 @@ import { AppHeader } from '@/components/layout/Header';
 import { PlayerProvider } from '@/hooks/use-player';
 
 export const metadata: Metadata = {
-  title: 'Sickle Cell Quest',
+  title: 'Hemo Quest',
   description: 'An educational adventure about sickle cell disease.',
 };
 
@@ -16,13 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className={cn("font-body antialiased h-full flex flex-col")}>
+      <body className={cn("font-body antialiased h-full flex flex-col")} suppressHydrationWarning>
         <PlayerProvider>
           <AppHeader />
           <main className="flex-1">

@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import type { Quest } from '@/lib/types';
 import Icons from '@/components/icons';
+import { DrHemoAvatar } from '@/components/game/DrHemoAvatar';
 
 const formSchema = z.object({
   duration: z.string().min(1, 'Please select a duration.'),
@@ -45,8 +46,19 @@ export function QuestGenerator({ onQuestGenerated }: QuestGeneratorProps) {
   const onSubmit = async (data: QuestGeneratorFormValues) => {
     setIsLoading(true);
     try {
-      const preferences = { preferences: data };
-      const newQuest = await generateQuestAction(preferences);
+      // Align with MedGemma flow which expects a 'system' parameter
+      const input = { system: data.targetMuscleGroup };
+      const result = await generateQuestAction(input);
+      
+      // Map AI output to the Quest type used by the component
+      const newQuest: Quest = {
+        activityName: result.title,
+        description: result.description,
+        duration: data.duration,
+        targetMuscleGroup: data.targetMuscleGroup,
+        levelOfExertion: data.intensity,
+      };
+      
       onQuestGenerated(newQuest);
       toast({
         title: 'Quest Generated!',
@@ -134,7 +146,7 @@ export function QuestGenerator({ onQuestGenerated }: QuestGeneratorProps) {
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? (
                 <>
-                  <Icons.Logo className="mr-2 h-4 w-4 animate-spin" />
+                  <DrHemoAvatar size="sm" isThinking className="mr-2" />
                   Generating...
                 </>
               ) : (

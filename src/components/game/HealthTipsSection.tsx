@@ -2,15 +2,15 @@ import type { HealthTip } from "@/lib/game-data";
 import { cn } from "@/lib/utils";
 
 const urgencyStyles = {
-    info: "border-blue-400/40 bg-blue-500/10 text-blue-200",
-    important: "border-amber-400/40 bg-amber-500/10 text-amber-200",
-    critical: "border-red-400/40 bg-red-500/10 text-red-200",
+    info: "border-blue-200 bg-blue-50/50 text-blue-900 dark:border-blue-500/20 dark:bg-blue-500/5 dark:text-blue-100",
+    important: "border-amber-200 bg-amber-50/50 text-amber-900 dark:border-amber-500/20 dark:bg-amber-500/5 dark:text-amber-100",
+    critical: "border-red-200 bg-red-50/50 text-red-900 dark:border-red-500/20 dark:bg-red-500/5 dark:text-red-100",
 };
 
 const urgencyBadge = {
-    info: "bg-blue-500/20 text-blue-300",
-    important: "bg-amber-500/20 text-amber-300",
-    critical: "bg-red-500/20 text-red-300",
+    info: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300",
+    important: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300",
+    critical: "bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300",
 };
 
 const urgencyLabel = {

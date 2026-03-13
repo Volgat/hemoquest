@@ -7,7 +7,9 @@ interface PlayerState {
   level: number;
   xp: number;
   xpToNextLevel: number;
+  customSprite: string | null;
   addXp: (amount: number) => void;
+  setCustomSprite: (uri: string) => void;
 }
 
 // Create the context with a default undefined value
@@ -23,6 +25,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   const [level, setLevel] = useState(INITIAL_LEVEL);
   const [xp, setXp] = useState(INITIAL_XP);
   const [xpToNextLevel, setXpToNextLevel] = useState(getXpToNextLevel(INITIAL_LEVEL));
+  const [customSprite, setCustomSprite] = useState<string | null>(null);
 
   const addXp = (amount: number) => {
     setXp(currentXp => {
@@ -45,7 +48,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const value = { level, xp, xpToNextLevel, addXp };
+  const value = { level, xp, xpToNextLevel, customSprite, addXp, setCustomSprite };
 
   return (
     <PlayerContext.Provider value={value}>

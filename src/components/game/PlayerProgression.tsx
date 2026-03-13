@@ -17,8 +17,13 @@ export function PlayerProgression({ level, xp, xpToNextLevel }: PlayerProgressio
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="font-bold text-sm bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center border-2 border-background shadow-md">
-              {level}
+            <div className="flex items-center gap-2">
+              <div className="font-bold text-sm bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center border-2 border-background shadow-md">
+                {level}
+              </div>
+              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+                {xp} XP
+              </span>
             </div>
           </TooltipTrigger>
           <TooltipContent>

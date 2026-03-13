@@ -1,7 +1,7 @@
 import { systems } from "@/lib/game-data";
 import { notFound } from "next/navigation";
-import { MissionCard } from "@/components/game/MissionCard";
 import { HealthTipsSection } from "@/components/game/HealthTipsSection";
+import { SystemMissions } from "@/components/game/SystemMissions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -40,18 +40,11 @@ export default function SystemPage({ params }: { params: { slug: string } }) {
         <HealthTipsSection tips={system.healthTips} />
       )}
 
-      {/* Missions */}
-      <h2 className="text-2xl font-bold font-headline mb-4 mt-8 flex items-center gap-2">
-        Available Missions
-        <span className="text-sm font-normal text-muted-foreground ml-2">
-          ({system.missions.length} missions)
-        </span>
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {system.missions.map((mission) => (
-          <MissionCard key={mission.id} mission={mission} />
-        ))}
-      </div>
+      {/* Missions & Dynamic Generation */}
+      <SystemMissions 
+        systemName={system.name} 
+        initialMissions={system.missions} 
+      />
     </div>
   );
 }
