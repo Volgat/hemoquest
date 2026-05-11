@@ -62,9 +62,9 @@ export default function Home() {
         <Image
           src="/logo.png"
           alt="SCAGO Logo"
-          width={280}
-          height={80}
-          className="h-20 w-auto mb-4 object-contain drop-shadow-lg"
+          width={560}
+          height={160}
+          className="h-40 w-auto mb-4 object-contain drop-shadow-lg"
           priority
         />
         <h1 className="text-4xl font-bold font-headline bg-gradient-to-r from-red-500 via-rose-400 to-red-700 bg-clip-text text-transparent drop-shadow-sm">
