@@ -14,15 +14,15 @@ export function AppHeader() {
   return (
     <header className="bg-card border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-44">
+        <div className="flex items-center justify-between h-36">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
               <Image
                 src="/logo.png"
                 alt="SCAGO Logo"
-                width={640}
-                height={192}
-                className="h-40 w-auto object-contain"
+                width={448}
+                height={134}
+                className="h-28 w-auto object-contain"
                 priority
               />
             </Link>
