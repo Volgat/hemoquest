@@ -12,7 +12,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { OnboardingModal } from '@/components/game/OnboardingModal';
-import { BodyIcon } from '@/components/icons/BodyIcon';
+import { InteractiveBodyMap } from '@/components/game/InteractiveBodyMap';
 
 function getTotalXp(system: System) {
   return system.missions.reduce((sum, m) => sum + m.xp, 0);
@@ -118,49 +118,16 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ── Body Map ── */}
+          {/* ── Body Map with organs ── */}
           <div className="hidden lg:flex flex-col items-center w-72 flex-shrink-0">
             <p className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Body Map</p>
-            <div className="relative w-full">
-              <BodyIcon className="w-full h-auto text-primary/20 drop-shadow-sm" />
-
-              {/* System hotspots on the body */}
-              {systems.map((system) => {
-                const isLocked = level < system.levelRequirement;
-                return (
-                  <div
-                    key={system.slug}
-                    className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                    style={{ top: system.position.top, left: system.position.left }}
-                  >
-                    {isLocked ? (
-                      <div
-                        onClick={() => handleLockedClick(system)}
-                        title={`${system.name} — Level ${system.levelRequirement} required`}
-                        className="cursor-pointer w-9 h-9 rounded-full bg-muted/80 border-2 border-muted-foreground/30 flex items-center justify-center shadow-md opacity-60 hover:opacity-80 transition-opacity"
-                      >
-                        <Lock className="w-4 h-4 text-muted-foreground" />
-                      </div>
-                    ) : (
-                      <Link href={`/systems/${system.slug}`}>
-                        <div
-                          title={system.name}
-                          className={cn(
-                            'w-9 h-9 rounded-full bg-primary/90 border-2 border-white shadow-lg flex items-center justify-center',
-                            'hover:scale-125 transition-transform duration-200 cursor-pointer',
-                            system.animation
-                          )}
-                        >
-                          <system.Icon className="w-5 h-5 text-white" />
-                        </div>
-                      </Link>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <InteractiveBodyMap
+              systems={systems}
+              level={level}
+              onLockedClick={handleLockedClick}
+            />
             <p className="text-xs text-muted-foreground/60 mt-3 text-center">
-              Click a hotspot or use the cards to navigate
+              Click an organ or use the cards to navigate
             </p>
           </div>
 
