@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import type { System } from '@/lib/game-data';
+import { useSoundEffects } from '@/hooks/use-sound-effects';
 
 interface InteractiveBodyMapProps {
   systems: System[];
@@ -52,6 +53,7 @@ const organConfig: Record<string, { label: string; color: string; element: strin
 
 export function InteractiveBodyMap({ systems, level, onLockedClick }: InteractiveBodyMapProps) {
   const router = useRouter();
+  const { playClick, playLocked } = useSoundEffects();
 
   return (
     <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto select-none">
@@ -75,7 +77,10 @@ export function InteractiveBodyMap({ systems, level, onLockedClick }: Interactiv
         return (
           <g
             key={system.slug}
-            onClick={() => isLocked ? onLockedClick(system) : router.push(`/systems/${system.slug}`)}
+            onClick={() => {
+              if (isLocked) { playLocked(); onLockedClick(system); }
+              else { playClick(); router.push(`/systems/${system.slug}`); }
+            }}
             style={{ cursor: 'pointer' }}
             opacity={isLocked ? 0.45 : 0.92}
             className={cn(!isLocked && 'hover:opacity-100 transition-opacity duration-200')}

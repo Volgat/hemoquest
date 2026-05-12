@@ -3,6 +3,7 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useLocalStorage } from './use-local-storage';
 import { useToast } from './use-toast';
+import { useSoundEffects } from './use-sound-effects';
 
 interface PlayerState {
   level: number;
@@ -24,6 +25,7 @@ const getXpToNextLevel = (level: number) => 50 + level * 50;
 
 export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
+  const { playLevelUp } = useSoundEffects();
   const [level, setLevel] = useLocalStorage('hemoquest-level', INITIAL_LEVEL);
   const [xp, setXp] = useLocalStorage('hemoquest-xp', INITIAL_XP);
   const [xpToNextLevel, setXpToNextLevel] = useLocalStorage('hemoquest-xpnext', getXpToNextLevel(INITIAL_LEVEL));
@@ -48,6 +50,7 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
       setLevel(newLevel);
       setXpToNextLevel(newXpToNextLevel);
       setTimeout(() => {
+        playLevelUp();
         toast({
           title: `🎉 Level Up!`,
           description: `You reached Level ${newLevel}! New content has been unlocked.`,

@@ -10,6 +10,7 @@ import type { Mission } from '@/lib/game-data';
 import { CheckCircle, XCircle, Trophy, RotateCcw } from 'lucide-react';
 import { usePlayer } from '@/hooks/use-player';
 import { cn } from '@/lib/utils';
+import { useSoundEffects } from '@/hooks/use-sound-effects';
 
 interface MissionQuizProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ interface MissionQuizProps {
 export function MissionQuiz({ isOpen, onOpenChange, mission, systemSlug }: MissionQuizProps) {
   const { toast } = useToast();
   const { addXp, completeMission, isMissionCompleted } = usePlayer();
+  const { playCorrect, playWrong, playMissionComplete } = useSoundEffects();
 
   const missionKey = `${systemSlug}:${mission.id}`;
   const alreadyDone = isMissionCompleted(missionKey);
@@ -40,7 +42,8 @@ export function MissionQuiz({ isOpen, onOpenChange, mission, systemSlug }: Missi
     const correct = selected === question.correctAnswerIndex;
     setIsCorrect(correct);
     setShowResult(true);
-    if (correct) setScore((s) => s + 1);
+    if (correct) { playCorrect(); setScore((s) => s + 1); }
+    else { playWrong(); }
   };
 
   const handleNext = () => {
@@ -60,6 +63,7 @@ export function MissionQuiz({ isOpen, onOpenChange, mission, systemSlug }: Missi
         }
         completeMission(missionKey);
       }
+      playMissionComplete();
     }
   };
 
