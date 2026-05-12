@@ -1,7 +1,6 @@
 'use client';
 
 import { Progress } from "@/components/ui/progress";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface PlayerProgressionProps {
   level: number;
@@ -10,37 +9,22 @@ interface PlayerProgressionProps {
 }
 
 export function PlayerProgression({ level, xp, xpToNextLevel }: PlayerProgressionProps) {
-  const xpPercentage = (xp / xpToNextLevel) * 100;
+  const xpPercentage = Math.min((xp / xpToNextLevel) * 100, 100);
 
   return (
-    <div className="flex items-center gap-3 w-48">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="flex items-center gap-2">
-              <div className="font-bold text-sm bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center border-2 border-background shadow-md">
-                {level}
-              </div>
-              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
-                {xp} XP
-              </span>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Level {level}</p>
-          </TooltipContent>
-        </Tooltip>
-        <div className="w-full">
-            <Tooltip>
-                <TooltipTrigger className="w-full">
-                    <Progress value={xpPercentage} className="h-3" />
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>{xp} / {xpToNextLevel} XP</p>
-                </TooltipContent>
-            </Tooltip>
+    <div className="flex items-center gap-3">
+      {/* Level badge */}
+      <div className="font-bold text-sm bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center border-2 border-background shadow-md flex-shrink-0">
+        {level}
+      </div>
+      {/* XP bar + label */}
+      <div className="flex flex-col gap-1 min-w-[130px]">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium text-muted-foreground">{xp} / {xpToNextLevel} XP</span>
+          <span className="text-xs text-muted-foreground/60">→ Lv{level + 1}</span>
         </div>
-      </TooltipProvider>
+        <Progress value={xpPercentage} className="h-2" />
+      </div>
     </div>
   );
 }

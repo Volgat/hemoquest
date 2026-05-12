@@ -2,17 +2,25 @@ import { systems } from "@/lib/game-data";
 import { notFound } from "next/navigation";
 import { HealthTipsSection } from "@/components/game/HealthTipsSection";
 import { SystemMissions } from "@/components/game/SystemMissions";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const system = systems.find((s) => s.slug === params.slug);
+  if (!system) return { title: "Hemo Quest" };
+  return {
+    title: `${system.name} — Hemo Quest`,
+    description: system.description,
+  };
+}
 
 export default function SystemPage({ params }: { params: { slug: string } }) {
   const system = systems.find((s) => s.slug === params.slug);
 
-  if (!system) {
-    notFound();
-  }
+  if (!system) notFound();
 
   return (
     <div className="container mx-auto py-8">
@@ -35,22 +43,19 @@ export default function SystemPage({ params }: { params: { slug: string } }) {
         </CardHeader>
       </Card>
 
-      {/* Health Tips Section */}
       {system.healthTips && system.healthTips.length > 0 && (
         <HealthTipsSection tips={system.healthTips} />
       )}
 
-      {/* Missions & Dynamic Generation */}
-      <SystemMissions 
-        systemName={system.name} 
-        initialMissions={system.missions} 
+      <SystemMissions
+        systemName={system.name}
+        systemSlug={system.slug}
+        initialMissions={system.missions}
       />
     </div>
   );
 }
 
 export async function generateStaticParams() {
-  return systems.map((system) => ({
-    slug: system.slug,
-  }));
+  return systems.map((system) => ({ slug: system.slug }));
 }

@@ -1,63 +1,75 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { useLocalStorage } from './use-local-storage';
+import { useToast } from './use-toast';
 
-// Define the shape of the player state and the context
 interface PlayerState {
   level: number;
   xp: number;
   xpToNextLevel: number;
+  completedMissions: string[];
   customSprite: string | null;
   addXp: (amount: number) => void;
   setCustomSprite: (uri: string) => void;
+  completeMission: (key: string) => void;
+  isMissionCompleted: (key: string) => boolean;
 }
 
-// Create the context with a default undefined value
 const PlayerContext = createContext<PlayerState | undefined>(undefined);
 
-// Initial values and logic for calculating next level's XP
 const INITIAL_LEVEL = 1;
 const INITIAL_XP = 0;
 const getXpToNextLevel = (level: number) => 50 + level * 50;
 
-// Create a provider component
 export const PlayerProvider = ({ children }: { children: ReactNode }) => {
-  const [level, setLevel] = useState(INITIAL_LEVEL);
-  const [xp, setXp] = useState(INITIAL_XP);
-  const [xpToNextLevel, setXpToNextLevel] = useState(getXpToNextLevel(INITIAL_LEVEL));
-  const [customSprite, setCustomSprite] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [level, setLevel] = useLocalStorage('hemoquest-level', INITIAL_LEVEL);
+  const [xp, setXp] = useLocalStorage('hemoquest-xp', INITIAL_XP);
+  const [xpToNextLevel, setXpToNextLevel] = useLocalStorage('hemoquest-xpnext', getXpToNextLevel(INITIAL_LEVEL));
+  const [completedMissions, setCompletedMissions] = useLocalStorage<string[]>('hemoquest-completed', []);
+  const [customSprite, setCustomSprite] = useLocalStorage<string | null>('hemoquest-sprite', null);
 
   const addXp = (amount: number) => {
-    setXp(currentXp => {
-      let newXp = currentXp + amount;
-      let newLevel = level;
-      let newXpToNextLevel = xpToNextLevel;
+    let newXp = xp + amount;
+    let newLevel = level;
+    let newXpToNextLevel = xpToNextLevel;
+    let didLevelUp = false;
 
-      // Check for level up
-      while (newXp >= newXpToNextLevel) {
-        newLevel++;
-        newXp -= newXpToNextLevel;
-        newXpToNextLevel = getXpToNextLevel(newLevel);
-        
-        // Update state for level up
-        setLevel(newLevel);
-        setXpToNextLevel(newXpToNextLevel);
-      }
+    while (newXp >= newXpToNextLevel) {
+      newLevel++;
+      newXp -= newXpToNextLevel;
+      newXpToNextLevel = getXpToNextLevel(newLevel);
+      didLevelUp = true;
+    }
 
-      return newXp;
-    });
+    setXp(newXp);
+    if (didLevelUp) {
+      setLevel(newLevel);
+      setXpToNextLevel(newXpToNextLevel);
+      setTimeout(() => {
+        toast({
+          title: `🎉 Level Up!`,
+          description: `You reached Level ${newLevel}! New content has been unlocked.`,
+        });
+      }, 400);
+    }
   };
 
-  const value = { level, xp, xpToNextLevel, customSprite, addXp, setCustomSprite };
+  const completeMission = (key: string) => {
+    setCompletedMissions((prev) => (prev.includes(key) ? prev : [...prev, key]));
+  };
 
-  return (
-    <PlayerContext.Provider value={value}>
-      {children}
-    </PlayerContext.Provider>
-  );
+  const isMissionCompleted = (key: string) => completedMissions.includes(key);
+
+  const value: PlayerState = {
+    level, xp, xpToNextLevel, completedMissions, customSprite,
+    addXp, setCustomSprite, completeMission, isMissionCompleted,
+  };
+
+  return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>;
 };
 
-// Create a custom hook for easy consumption of the context
 export const usePlayer = (): PlayerState => {
   const context = useContext(PlayerContext);
   if (context === undefined) {

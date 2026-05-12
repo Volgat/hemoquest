@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import { MedGemmaChatClient } from "@/components/game/MedGemmaChatClient";
+
+export const metadata: Metadata = {
+  title: 'Hemo — Health Guide | Hemo Quest',
+  description: 'Ask Dr. Hemo, your AI health guide, any question about sickle cell disease — symptoms, genetics, treatments and daily management.',
+};
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
